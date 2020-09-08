@@ -6,6 +6,8 @@ This is a fork of the archived [jangernert/FeedReader](https://github.com/janger
 Build from source
 -----------------
 
+In addition to the dependencies below, the library [libdecsync](https://github.com/39aldo39/libdecsync) is also required.
+
 Install dependencies:
 
 ### Ubuntu
@@ -33,7 +35,7 @@ sudo apt install \
 	libgstreamer1.0-dev \
 	libgstreamer-plugins-base1.0-dev \
 	libgoa-1.0-dev \
-	libcurl-dev \
+	libcurl4-openssl-dev \
 	libpeas-dev \
 	libgumbo-dev
 ```
@@ -68,12 +70,10 @@ sudo dnf install \
 	libunity-devel
 ```
 
-In addition to the above dependencies, the library [libdecsync](https://github.com/39aldo39/libdecsync) is also required.
-
 ### Build
 
 ```bash
-git clone --recursive https://github.com/jangernert/FeedReader
+git clone --recursive https://github.com/39aldo39/FeedReader
 cd ./FeedReader
 meson build
 sudo ninja -C build install
