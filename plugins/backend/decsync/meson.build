@@ -3,7 +3,7 @@ decsync_resources = gnome.compile_resources(
   'decsync.gresource.xml'
 )
 
-libdecsync = dependency('decsync', version: '>=1.4.0')
+libdecsync = dependency('decsync', version: '>=1.7.0')
 
 shared_library(
   'decsync',

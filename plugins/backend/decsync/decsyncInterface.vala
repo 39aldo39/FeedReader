@@ -271,6 +271,7 @@ public class FeedReader.decsyncInterface : FeedServerInterface {
 		m_sync.add_listener({"feeds","categories"}, DecsyncListeners.categoriesListener);
 		m_sync.add_listener({"categories","names"}, DecsyncListeners.categoryNamesListener);
 		m_sync.add_listener({"categories","parents"}, DecsyncListeners.categoryParentsListener);
+		m_sync.init_done();
 		return LoginResponse.SUCCESS;
 	}
 
@@ -481,6 +482,9 @@ public class FeedReader.decsyncInterface : FeedServerInterface {
 
 	public override void getArticles(int count, ArticleStatus whatToGet, DateTime? since, string? feedID, bool isTagID, GLib.Cancellable? cancellable = null)
 	{
+		var extra = new Extra(this);
+		m_sync.execute_all_new_entries(extra);
+
 		var feeds = DataBase.readOnly().read_feeds();
 		var articles = new Gee.ArrayList<Article>();
 		GLib.Mutex mutex = GLib.Mutex();
@@ -644,7 +648,6 @@ public class FeedReader.decsyncInterface : FeedServerInterface {
 			return strcmp(a.getArticleID(), b.getArticleID());
 		});
 
-		var extra = new Extra(this);
 		if(articles.size > 0)
 		{
 			DataBase.writeAccess().write_articles(articles);
@@ -661,7 +664,6 @@ public class FeedReader.decsyncInterface : FeedServerInterface {
 			m_sync.execute_stored_entries(storedEntries, extra);
 		}
 
-		m_sync.execute_all_new_entries(extra);
 		FeedReaderBackend.get_default().updateBadge();
 		refreshFeedListCounter();
 		newFeedList();
